@@ -11,6 +11,7 @@
 
 namespace h4cc\Multipart;
 
+use h4cc\Multipart\Parser\MultipartFormDataParser;
 use h4cc\Multipart\Parser\MultipartParser;
 
 /**
@@ -32,7 +33,13 @@ class ParserSelector
 
         list($mime, $boundary) = $this->parseContentType($contentType);
 
-        $parser = new MultipartParser();
+        if ($mime == 'multipart/form-data') {
+            $parser = new MultipartFormDataParser();
+        }
+        else {
+            $parser = new MultipartParser();
+        }
+
         $parser->setBoundary($boundary);
 
         return $parser;
